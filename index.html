@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JARVIS X</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- ========================= -->
+    <!-- STARTUP SCREEN -->
+    <!-- ========================= -->
+
+    <div id="startup">
+
+        <div class="startup-center">
+
+            <h1 id="jarvisTitle">JARVIS</h1>
+
+            <div class="boot-loader">
+                <div class="loader-bar">
+                    <div id="loaderFill"></div>
+                </div>
+            </div>
+
+            <div id="bootText">
+                Initializing...
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- CANVAS -->
+    <!-- ========================= -->
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- ========================= -->
+    <!-- HUD -->
+    <!-- ========================= -->
+
+    <div id="hud">
+
+        <!-- LEFT PANEL -->
+
+        <div class="hud-panel left-panel">
+
+            <div class="panel-title">
+                SYSTEM STATUS
+            </div>
+
+            <div class="panel-content">
+
+                <div class="status-row">
+                    <span>Core</span>
+                    <span class="online">ONLINE</span>
+                </div>
+
+                <div class="status-row">
+                    <span>Neural Matrix</span>
+                    <span class="online">READY</span>
+                </div>
+
+                <div class="status-row">
+                    <span>Voice Engine</span>
+                    <span class="online">ACTIVE</span>
+                </div>
+
+                <div class="status-row">
+                    <span>Camera Link</span>
+                    <span class="online">READY</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+
+        <div class="hud-panel right-panel">
+
+            <div class="panel-title">
+                LIVE TELEMETRY
+            </div>
+
+            <div class="panel-content">
+
+                <div id="fpsValue">
+                    FPS: --
+                </div>
+
+                <div id="memoryValue">
+                    Memory: --
+                </div>
+
+                <div id="threadsValue">
+                    Threads: --
+                </div>
+
+                <div id="uptimeValue">
+                    Uptime: --
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- COMMAND BUTTONS -->
+    <!-- ========================= -->
+
+    <div id="bottomControls">
+
+        <button id="dashboardBtn">
+            DASHBOARD
+        </button>
+
+        <button id="cameraBtn">
+            CAMERA
+        </button>
+
+        <button id="voiceBtn">
+            VOICE
+        </button>
+
+        <button id="chatBtn">
+            AI CHAT
+        </button>
+        <button id="viewerBtn">
+            3D VIEWER
+        </button>
+        <button id="projectsBtn">
+           PROJECTS
+        </button>
+    </div>
+
+    <!-- ========================= -->
+    <!-- DASHBOARD -->
+    <!-- ========================= -->
+
+    <div id="dashboardPanel">
+
+        <div class="window-header">
+
+            <span>DASHBOARD</span>
+
+            <button class="closeWindow"
+                data-close="dashboardPanel">
+                ✕
+            </button>
+
+        </div>
+
+        <div class="window-content">
+
+            <div class="dashboard-grid">
+
+                <div class="card">
+
+                    <h3>TIME</h3>
+
+                    <div id="clockDisplay">
+                        --:--
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>DATE</h3>
+
+                    <div id="dateDisplay">
+                        ---
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>VOICE STATUS</h3>
+
+                    <div id="voiceStatus">
+                        Standby
+                    </div>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>CAMERA STATUS</h3>
+
+                    <div id="cameraStatus">
+                        Offline
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="system-feed">
+
+                <div class="feed-title">
+                    SYSTEM FEED
+                </div>
+
+                <div id="systemLog">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- CAMERA WINDOW -->
+    <!-- ========================= -->
+
+    <div id="cameraPanel">
+
+        <div class="window-header">
+
+            <span>LIVE CAMERA</span>
+
+            <button class="closeWindow"
+                data-close="cameraPanel">
+                ✕
+            </button>
+
+        </div>
+
+        <video
+            id="cameraFeed"
+            autoplay
+            playsinline
+            muted>
+        </video>
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- CHAT WINDOW -->
+    <!-- ========================= -->
+
+    <div id="chatPanel">
+
+        <div class="window-header">
+
+            <span>JARVIS AI</span>
+
+            <button class="closeWindow"
+                data-close="chatPanel">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="chatMessages">
+
+            <div class="bot-message">
+                JARVIS online. Awaiting command.
+            </div>
+
+        </div>
+
+        <div id="chatInputArea">
+
+            <input
+                id="chatInput"
+                type="text"
+                placeholder="Enter command..."
+            >
+
+            <button id="sendChat">
+                SEND
+            </button>
+
+        </div>
+
+    </div>
+</div>
+    <div id="viewerPanel">
+
+    <canvas
+        id="viewerCanvas">
+    </canvas>
+
+    <div id="viewerSidebar">
+
+        <button id="loadSolar">
+            Solar System
+        </button>
+
+        <button id="loadEarth">
+            Earth
+        </button>
+
+        <button id="loadMolecule">
+            Molecules
+        </button>
+
+        <button id="loadNeural">
+            Neural Network
+        </button>
+        <button id="loadCustom">
+            Import Model
+        </button>
+        <input type="file" id="modelFile" accept=".glb,.gltf" style="display:none">
+    </div>
+
+</div>
+
+<!-- =====================================================
+     PROJECT MANAGER
+===================================================== -->
+
+<div id="projectsPanel" class="window hidden">
+
+    <div class="windowHeader">
+
+        <span>PROJECT MANAGER</span>
+
+        <button
+            id="closeProjects"
+            class="closeWindow">
+
+            ✕
+
+        </button>
+
+    </div>
+
+    <div class="projectsToolbar">
+
+        <button id="newProjectBtn">
+
+            + PROJECT
+
+        </button>
+
+        <button id="saveProjectBtn">
+
+            SAVE
+
+        </button>
+
+        <button id="deleteProjectBtn">
+
+            DELETE
+
+        </button>
+
+        <button id="newFileBtn">
+
+            + FILE
+
+        </button>
+
+    </div>
+
+    <div class="projectsBody">
+
+        <!-- LEFT SIDE -->
+
+        <div class="projectSidebar">
+
+            <h3>
+
+                Projects
+
+            </h3>
+
+            <div id="projectList">
+
+            </div>
+
+        </div>
+
+        <!-- CENTER -->
+
+        <div class="fileSidebar">
+
+            <h3>
+
+                Files
+
+            </h3>
+
+            <div id="fileList">
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="projectInfo">
+
+            <h3>
+
+                Details
+
+            </h3>
+
+            <div id="projectDetails">
+
+                No Project Selected
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+    <!-- ========================= -->
+    <!-- NOTIFICATIONS -->
+    <!-- ========================= -->
+
+    <div id="notificationContainer">
+
+    </div>
+
+    <!-- ========================= -->
+    <!-- AUDIO -->
+    <!-- ========================= -->
+
+    <audio
+        id="startupAudio"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="clickAudio"
+        preload="auto">
+    </audio>
+
+    <audio
+        id="openAudio"
+        preload="auto">
+    </audio>
+
+    <!-- ========================= -->
+    <!-- MODULES -->
+    <!-- ========================= -->
+<div id="ghostCursor">
+
+    <div class="cursorCore"></div>
+
+    <div class="cursorRing"></div>
+
+</div>
+<script type="importmap">
+    {
+    "imports": {
+        "three": "https://unpkg.com/three@0.165.0/build/three.module.js"
+    }
+    }
+</script>
+<script type="module" src="main.js"></script>
+<script
+src="https://unpkg.com/leaflet/dist/leaflet.js">
+</script>
+
+</body>
+</html>
